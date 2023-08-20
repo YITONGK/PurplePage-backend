@@ -1,5 +1,5 @@
 // link to group model
-const { Group, Division } = require('../models')
+const { Group, Division } = require('../models');
 
 // get all groups
 const getAllGroups = async (req, res) => {

@@ -1,5 +1,5 @@
 // link to program model
-const { Program, ProgramType, Group, Site } = require('../models')
+const { Program, ProgramType, Group, Site } = require('../models');
 
 // get all programs
 const getAllPrograms = async (req, res) => {
@@ -18,6 +18,7 @@ const getAllPrograms = async (req, res) => {
                 });
             });
         }
+
         // get all groups
         const groups = [];
         for (let i=0; i < programs.length; i++) {
@@ -44,6 +45,7 @@ const getAllPrograms = async (req, res) => {
                     sites.push({
                         site_id: site['dataValues']['site_id']
                     });
+                    // sites.push(site);
                 }
             });
         }

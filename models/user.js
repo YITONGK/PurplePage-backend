@@ -22,6 +22,7 @@ module.exports = (sequelize, DataTypes) => {
             }
         },
     }, {
+        // schema: 'purplepage',
         freezeTableName: true
     });
 

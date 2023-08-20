@@ -1,5 +1,6 @@
 // link to division model
-const { Division } = require('../models')
+const { Division } = require('../models');
+
 
 // get all divisions
 const getAllDivisions = async (req, res) => {

@@ -68,6 +68,9 @@ module.exports = (sequelize, DataTypes) => {
         "modified_by": {
             type: DataTypes.STRING
         },
+        "address" : {
+            type: DataTypes.STRING
+        },
         "lat": {
             type: DataTypes.INTEGER
         },
@@ -75,6 +78,7 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.INTEGER
         },
     }, {
+        // schema: 'purplepage',
         timestamps: false,
         freezeTableName: true
     });

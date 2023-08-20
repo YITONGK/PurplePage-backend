@@ -1,5 +1,5 @@
 // link to service type model
-const { ServiceType, ServiceStream } = require('../models')
+const { ServiceType, ServiceStream } = require('../models');
 
 // get all service types
 const getAllServiceTypes = async (req, res) => {
@@ -11,6 +11,7 @@ const getAllServiceTypes = async (req, res) => {
                     "ser_stream_id": serviceTypes[i]['ser_stream_id']
                 }
             }).then((serviceStream) => {
+                // serviceStreams.push(serviceStream);
                 serviceStreams.push({
                     ser_type_id: serviceTypes[i]['ser_type_id'],
                     ser_stream: serviceStream['ser_stream']

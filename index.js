@@ -10,13 +10,27 @@ const flash = require('express-flash');
 const session = require('express-session');
 const methodOverride = require('method-override');
 
-// require the controllers
-const userController = require('./controllers/userController');
+//new
+// const sqlPool = require('./db'); // Import the pool from db.js
 
-const initializePassport = require('./passport-config');
-initializePassport(passport, userController.getUserByEmail, userController.getUserById);
+// place it after express.js
+// sqlPool.connect()
+//   .then(() => {
+//     console.log('Connected to SQL Server!');
+//   })
+//   .catch(err => console.error('Error connecting to SQL Server:', err));
+
+// app.set('sqlPool', sqlPool);
+
+// require the controllers
+// const userController = require('./controllers/userController');
+const programController = require('./controllers/programController');
+
+// const initializePassport = require('./passport-config');
+// initializePassport(passport, userController.getUserByEmail, userController.getUserById);
 
 const app = express();
+
 app.use(require('express-session')({ secret: 'keyboard cat', resave: true, saveUninitialized: true }));
 app.use(bodyParser.json());
 
@@ -43,16 +57,12 @@ app.use(session({
     resave: false,
     saveUninitialized: false
 }));
-app.use(passport.initialize());
-app.use(passport.session());
+// app.use(passport.initialize());
+// app.use(passport.session());
 app.use(methodOverride('_method'));
 
 // GET home page
-db.sequelize.sync().then((req) => {
-    app.get('/', userController.checkAuthenticated, (req, res) => {
-        res.render('index.ejs', { name: req.user.name });
-    });
-});
+db.sequelize.sync();
 
 // cors
 app.use(cors({

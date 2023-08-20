@@ -1,5 +1,5 @@
 // link to service stream model
-const { ServiceStream } = require('../models')
+const { ServiceStream } = require('../models');
 
 // get all service streams
 const getAllServiceStreams = async (req, res) => {

@@ -1,5 +1,5 @@
 // link to site model
-const { Site } = require('../models')
+const { Site } = require('../models');
 
 // get all sites
 const getAllSites = async (req, res) => {

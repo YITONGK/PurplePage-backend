@@ -1,5 +1,5 @@
 // link to program type model
-const { ProgramType, ServiceType } = require('../models')
+const { ProgramType, ServiceType } = require('../models');
 
 // get all program types
 const getAllProgramTypes = async (req, res) => {

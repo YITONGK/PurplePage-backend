@@ -2,7 +2,7 @@ const bcrypt = require('bcrypt');
 const nodemailer = require("nodemailer");
 
 // link to user model
-const { User } = require('../models')
+const { User } = require('../models');
 
 // register a user (POST)
 const registerUser = async (req, res) => {
