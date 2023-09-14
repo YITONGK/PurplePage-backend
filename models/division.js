@@ -42,7 +42,7 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING
         },
     }, {
-        // schema: 'purplepage',
+        schema: 'dbo',
         timestamps: false,
         freezeTableName: true
     });

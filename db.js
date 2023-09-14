@@ -24,3 +24,17 @@ module.exports = pool;
 //     "port": 8080,
 //     "dialect": "mssql"
 //   },
+
+// "development": {
+//     "dialect": "mssql",
+//     "database": "ServiceDirectory_UVT_TEST",
+//     "host": "vt-prd-sqltest1",
+//     "dialectOptions": {
+//       "options": {
+//         "trustedConnection": true, // Use Windows authentication
+//         "domain": "vt.uniting.org", // Your Windows domain
+//         "userName": "VT\adrian.teo", // Your Windows username
+//         "password": "Abcde" // Your Windows password
+//         }
+//     }
+// }
