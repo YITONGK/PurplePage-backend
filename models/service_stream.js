@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-    const ServiceStream = sequelize.define("ServiceStream", {
+    const ServiceStream = sequelize.define("ser_stream", {
         "ser_stream_id": {
             type: DataTypes.STRING,
             allowNull: false,

@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-    const ProgramType = sequelize.define("ProgramType", {
+    const ProgramType = sequelize.define("program_type", {
         "prgm_type_id": {
             type: DataTypes.STRING,
             allowNull: false,

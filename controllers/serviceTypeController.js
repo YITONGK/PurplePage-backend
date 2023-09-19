@@ -1,12 +1,12 @@
 // link to service type model
-const { ServiceType, ServiceStream } = require('../models');
+const { ser_type, ser_stream } = require('../models');
 
 // get all service types
 const getAllServiceTypes = async (req, res) => {
-    await ServiceType.findAll().then(async (serviceTypes) => {
+    await ser_type.findAll().then(async (serviceTypes) => {
         const serviceStreams = []
         for (let i=0; i < serviceTypes.length; i++) {
-            await ServiceStream.findOne({
+            await ser_stream.findOne({
                 where: {
                     "ser_stream_id": serviceTypes[i]['ser_stream_id']
                 }
@@ -14,7 +14,7 @@ const getAllServiceTypes = async (req, res) => {
                 // serviceStreams.push(serviceStream);
                 serviceStreams.push({
                     ser_type_id: serviceTypes[i]['ser_type_id'],
-                    ser_stream: serviceStream['ser_stream']
+                    // ser_stream: serviceStream['ser_stream'] // need to fix
                 });
             });
         }
@@ -27,14 +27,14 @@ const getAllServiceTypes = async (req, res) => {
 // get a service type based on id
 const getServiceTypeByID = async (req, res) => {
     // search for service type in the database via ID
-    await ServiceType.findOne({
+    await ser_type.findOne({
         where: {
             "ser_type_id": req.params.id
         }
     }).then(async (serviceType) => {
         if (serviceType) {
             let ser_stream;
-            await ServiceStream.findOne({
+            await ser_stream.findOne({
                 where: {
                     "ser_stream_id": serviceType['ser_stream_id']
                 }
@@ -51,7 +51,7 @@ const getServiceTypeByID = async (req, res) => {
 // add a service type (POST)
 const createServiceType = async (req, res) => {
     // search for the previous last entry in the service type table
-    const prevServiceType = await ServiceType.findAll({
+    const prevServiceType = await ser_type.findAll({
         limit: 1,
         order: [['ser_type_id', 'DESC']]
     });
@@ -62,7 +62,7 @@ const createServiceType = async (req, res) => {
     const ser_type_id = prevServiceType[0].ser_type_id + 1;
 
     // find a service stream and save its id
-    const serviceStream = await ServiceStream.findOne({
+    const serviceStream = await ser_stream.findOne({
         where: {
             "ser_stream": ser_stream
         }
@@ -70,7 +70,7 @@ const createServiceType = async (req, res) => {
     const ser_stream_id = serviceStream['ser_stream_id'];
 
     // create a new service type based on the data
-    const newServiceType = await ServiceType.create({ser_type_id, ser_type, ser_stream_id, status}).catch((err) => {
+    const newServiceType = await ser_type.create({ser_type_id, ser_type, ser_stream_id, status}).catch((err) => {
         if (err) {
             throw err;
         }
@@ -78,7 +78,7 @@ const createServiceType = async (req, res) => {
 
     // if service type was successfully created
     if (newServiceType) {
-        ServiceType.findAll().then((serviceTypes) => {
+        ser_type.findAll().then((serviceTypes) => {
             return res.send(serviceTypes);
         }).catch((err) => {
             throw err;
@@ -94,7 +94,7 @@ const editServiceType = async (req, res) => {
     const { ser_type_id, ser_type, ser_stream, status } = req.body;
 
     // find a service stream
-    const serviceStream = await ServiceStream.findOne({
+    const serviceStream = await ser_stream.findOne({
         where: {
             "ser_stream": ser_stream
         }
@@ -109,7 +109,7 @@ const editServiceType = async (req, res) => {
     };
 
     // create a new service type based on the info and save it to the database
-    const updatedServiceType = await ServiceType.update(serviceTypeInfo, {
+    const updatedServiceType = await ser_type.update(serviceTypeInfo, {
         where: {
             "ser_type_id": ser_type_id
         }
@@ -121,7 +121,7 @@ const editServiceType = async (req, res) => {
 
     // if service type was successfully created
     if (updatedServiceType) {
-        ServiceType.findAll().then((serviceTypes) => {
+        ser_type.findAll().then((serviceTypes) => {
             res.send(serviceTypes);
         }).catch((err) => {
             throw err;
@@ -134,7 +134,7 @@ const editServiceType = async (req, res) => {
 // delete a service type (DELETE)
 const deleteServiceType = async (req, res) => {
     try {
-        await ServiceType.destroy({
+        await ser_type.destroy({
             where: {
                 ser_type_id: req.params.id
             }

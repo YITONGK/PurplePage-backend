@@ -1,11 +1,25 @@
 {
   "development": {
-    "username": "root",
-    "password": "password",
-    "database": "purplepage",
-    "host": "localhost",
-    "dialect": "mysql"
-  },
+    "username": "adrian.teo",
+    "password": "Atwx@04201121",
+    "database": "ServiceDirectory_UVT_TEST",
+    "host": "VT-PRD-SQLTEST1",
+    "dialect": "mssql",
+    "dialectOptions": {
+      "authentication": {
+        "type": "ntlm",
+        "options": {
+          "userName": "adrian.teo",
+          "password": "Atwx@04201121",
+          "domain": "VT.UNITING.ORG"
+        }
+      },
+      "options": {
+        "encrypt": true,
+        "trustServerCertificate": true
+      }
+    }
+  },  
   "test": {
     "username": "root",
     "password": null,

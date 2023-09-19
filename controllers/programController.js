@@ -1,5 +1,5 @@
 // link to program model
-const { Program, ProgramType, Group, Site } = require('../models');
+const { Program, program_type, uvt_group, uvt_sites } = require('../models');
 
 // get all programs
 const getAllPrograms = async (req, res) => {
@@ -7,7 +7,7 @@ const getAllPrograms = async (req, res) => {
         // get all program types
         const programTypes = [];
         for (let i=0; i < programs.length; i++) {
-            await ProgramType.findOne({
+            await program_type.findOne({
                 where: {
                     "prgm_type_id": programs[i]['prgm_type_id']
                 }
@@ -22,21 +22,21 @@ const getAllPrograms = async (req, res) => {
         // get all groups
         const groups = [];
         for (let i=0; i < programs.length; i++) {
-            await Group.findOne({
+            await uvt_group.findOne({
                 where: {
                     "group_id": programs[i]['group_id']
                 }
             }).then((group) => {
                 groups.push({
                     group_id: programs[i]['group_id'],
-                    group_name: group['group_name']
+                    // group_name: group['group_name']
                 });
             });
         }
         // get all sites
         const sites = [];
         for (let i=0; i < programs.length; i++) {
-            await Site.findOne({
+            await uvt_sites.findOne({
                 where: {
                     "site_id": programs[i]['site_id']
                 }
@@ -65,7 +65,7 @@ const getProgramByID = async (req, res) => {
     }).then(async (program) => {
         if (program) {
             let prgm_type;
-            await ProgramType.findOne({
+            await program_type.findOne({
                 where: {
                     "prgm_type_id": program['prgm_type_id']
                 }
@@ -73,7 +73,7 @@ const getProgramByID = async (req, res) => {
                 prgm_type = programType['prgm_type'];
             })
             let group_name;
-            await Group.findOne({
+            await uvt_group.findOne({
                 where: {
                     "group_id": program['group_id']
                 }
@@ -103,7 +103,7 @@ const createProgram = async (req, res) => {
     const title = 'UVT-00' + program_id;
 
     // find a program type and save its id
-    const programType = await ProgramType.findOne({
+    const programType = await program_type.findOne({
         where: {
             "prgm_type": prgm_type
         }
@@ -111,7 +111,7 @@ const createProgram = async (req, res) => {
     const prgm_type_id = programType['prgm_type_id'];
 
     // find a group and save its id
-    const group = await Group.findOne({
+    const group = await uvt_group.findOne({
         where: {
             "group_name": group_name
         }
@@ -143,14 +143,14 @@ const editProgram = async (req, res) => {
     const { program_id, title, program_nme, prgm_mgr, prgm_type, group_name, prgm_status } = req.body;
 
     // find a program type
-    const programType = await ProgramType.findOne({
+    const programType = await program_type.findOne({
         where: {
             "prgm_type": prgm_type
         }
     })
 
     // find a group
-    const group = await Group.findOne({
+    const group = await uvt_group.findOne({
         where: {
             "group_name": group_name
         }
@@ -218,7 +218,7 @@ const getRelatedSites = async (req, res) => {
         const sites = [];
         for (let i=0; i < programs.length; i++) {
             if (program.program_nme === programs[i].program_nme) {
-                await Site.findOne({
+                await uvt_sites.findOne({
                     where: {
                         "site_id": programs[i].site_id
                     }

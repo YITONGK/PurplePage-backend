@@ -1,9 +1,9 @@
 // link to site model
-const { Site } = require('../models');
+const { uvt_sites } = require('../models');
 
 // get all sites
 const getAllSites = async (req, res) => {
-    await Site.findAll().then((sites) => {
+    await uvt_sites.findAll().then((sites) => {
         return res.send(sites);
     }).catch((err) => {
         throw err;
@@ -13,7 +13,7 @@ const getAllSites = async (req, res) => {
 // get a site based on id
 const getSiteByID = async (req, res) => {
     // search for site in the database via ID
-    await Site.findOne({
+    await uvt_sites.findOne({
         where: {
             "id": req.params.id
         }
@@ -29,7 +29,7 @@ const getSiteByID = async (req, res) => {
 // add a site (POST)
 const createSite = async (req, res) => {
     // search for the previous last entry in the site table
-    const prevSite = await Site.findAll({
+    const prevSite = await uvt_sites.findAll({
         limit: 1,
         order: [['id', 'DESC']]
     });
@@ -42,7 +42,7 @@ const createSite = async (req, res) => {
     const site_id = 'UVT-Site-00' + id;
 
     // create a new site based on the data
-    const newSite = await Site.create({id, site_id, street_nbr, street_name, suburb, state, postcode, status}).catch((err) => {
+    const newSite = await uvt_sites.create({id, site_id, street_nbr, street_name, suburb, state, postcode, status}).catch((err) => {
         if (err) {
             throw err;
         }
@@ -50,7 +50,7 @@ const createSite = async (req, res) => {
 
     // if site was successfully created
     if (newSite) {
-        Site.findAll().then((sites) => {
+        uvt_sites.findAll().then((sites) => {
             return res.send(sites);
         }).catch((err) => {
             throw err;
@@ -78,7 +78,7 @@ const editSite = async (req, res) => {
     };
 
     // create a new site based on the info and save it to the database
-    const updatedSite = await Site.update(siteInfo, {
+    const updatedSite = await uvt_sites.update(siteInfo, {
         where: {
             "id": id
         }
@@ -90,7 +90,7 @@ const editSite = async (req, res) => {
 
     // if site was successfully updated
     if (updatedSite) {
-        Site.findAll().then((sites) => {
+        uvt_sites.findAll().then((sites) => {
             res.send(sites);
         }).catch((err) => {
             throw err;
@@ -103,7 +103,7 @@ const editSite = async (req, res) => {
 // delete a site (DELETE)
 const deleteSite = async (req, res) => {
     try {
-        await Site.destroy({
+        await uvt_sites.destroy({
             where: {
                 id: req.params.id
             }

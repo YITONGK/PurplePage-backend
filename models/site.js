@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-    const Site = sequelize.define("Site", {
+    const Site = sequelize.define("uvt_sites", {
         "id": {
             type: DataTypes.STRING,
             allowNull: false,
@@ -66,9 +66,6 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.DATE
         },
         "modified_by": {
-            type: DataTypes.STRING
-        },
-        "address" : {
             type: DataTypes.STRING
         },
         "lat": {

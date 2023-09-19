@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-    const ServiceType = sequelize.define("ServiceType", {
+    const ServiceType = sequelize.define("ser_type", {
         "ser_type_id": {
             type: DataTypes.STRING,
             allowNull: false,

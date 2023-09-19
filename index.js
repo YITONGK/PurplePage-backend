@@ -24,7 +24,51 @@ const methodOverride = require('method-override');
 
 // require the controllers
 // const userController = require('./controllers/userController');
-const programController = require('./controllers/programController');
+// const programController = require('./controllers/programController');
+
+console.log('Starting Server--');
+
+// const Connection = require('tedious').Connection;
+
+// const config_2 = {
+//   server: 'VT-PRD-SQLTEST1',
+//   authentication: {
+//     type: 'ntlm',
+//     options: {
+//         userName: 'adrian.teo',
+//         password: 'Atwx@04201121',
+//         domain: 'VT.UNITING.ORG', 
+//         integratedSecurity: true
+//     }
+//   },
+//   options: {
+//     database: 'ServiceDirectory_UVT_TEST',
+//     encrypt: true,
+//     trustServerCertificate: true,
+//     port: 1433
+//   },
+//   debug: {
+//     packet: true,
+//     data: true,
+//     payload: true,
+//     token: true,
+//     log: function(message) {
+//         console.log(message);
+//     }
+//   }
+// };
+
+// const connection = new Connection(config_2);
+
+// connection.connect();
+
+// connection.on('connect', function(err) {
+//     if (err) {
+//       console.log("Connection Error", err);
+//     } else {
+//       console.log("Connected!");
+//     }
+// });
 
 // const initializePassport = require('./passport-config');
 // initializePassport(passport, userController.getUserByEmail, userController.getUserById);
@@ -44,7 +88,7 @@ const programRouter = require('./routes/programRouter');
 const serviceStreamRouter = require('./routes/serviceStreamRouter');
 const serviceTypeRouter = require('./routes/serviceTypeRouter');
 const siteRouter = require('./routes/siteRouter');
-const userRouter = require('./routes/userRouter');
+// const userRouter = require('./routes/userRouter');
 
 const db = require("./models");
 
@@ -79,7 +123,7 @@ app.use('/program', programRouter);
 app.use('/servicestream', serviceStreamRouter);
 app.use('/servicetype', serviceTypeRouter);
 app.use('/site', siteRouter);
-app.use('/', userRouter);
+// app.use('/', userRouter);
 
 app.listen(port, () => {
     console.log(`The app is listening on port ${port}!`)

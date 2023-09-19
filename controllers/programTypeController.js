@@ -1,12 +1,12 @@
 // link to program type model
-const { ProgramType, ServiceType } = require('../models');
+const { program_type, ser_type } = require('../models');
 
 // get all program types
 const getAllProgramTypes = async (req, res) => {
-    await ProgramType.findAll().then(async (programTypes) => {
+    await program_type.findAll().then(async (programTypes) => {
         const serviceTypes = []
         for (let i=0; i < programTypes.length; i++) {
-            await ServiceType.findOne({
+            await ser_type.findOne({
                 where: {
                     "ser_type_id": programTypes[i]['ser_type_id']
                 }
@@ -26,14 +26,14 @@ const getAllProgramTypes = async (req, res) => {
 // get a program type based on id
 const getProgramTypeByID = async (req, res) => {
     // search for v in the database via ID
-    await ProgramType.findOne({
+    await program_type.findOne({
         where: {
             "prgm_type_id": req.params.id
         }
     }).then(async (programType) => {
         if (programType) {
             let ser_type;
-            await ServiceType.findOne({
+            await ser_type.findOne({
                 where: {
                     "ser_type_id": programType['ser_type_id']
                 }
@@ -50,7 +50,7 @@ const getProgramTypeByID = async (req, res) => {
 // add a program type (POST)
 const createProgramType = async (req, res) => {
     // search for the previous last entry in the program type table
-    const prevProgramType = await ProgramType.findAll({
+    const prevProgramType = await program_type.findAll({
         limit: 1,
         order: [['prgm_type_id', 'DESC']]
     });
@@ -61,7 +61,7 @@ const createProgramType = async (req, res) => {
     const prgm_type_id = prevProgramType[0].prgm_type_id + 1;
 
     // find a service type and save its id
-    const serviceType = await ServiceType.findOne({
+    const serviceType = await ser_type.findOne({
         where: {
             "ser_type": ser_type
         }
@@ -69,7 +69,7 @@ const createProgramType = async (req, res) => {
     const ser_type_id = serviceType['ser_type_id'];
 
     // create a new program type based on the data
-    const newProgramType = await ProgramType.create({prgm_type_id, prgm_type, ser_type_id, pgm_type_status}).catch((err) => {
+    const newProgramType = await program_type.create({prgm_type_id, prgm_type, ser_type_id, pgm_type_status}).catch((err) => {
         if (err) {
             throw err;
         }
@@ -77,7 +77,7 @@ const createProgramType = async (req, res) => {
 
     // if program type was succesfully created
     if (newProgramType) {
-        ProgramType.findAll().then((programTypes) => {
+        program_type.findAll().then((programTypes) => {
             return res.send(programTypes);
         }).catch((err) => {
             throw err;
@@ -93,7 +93,7 @@ const editProgramType = async (req, res) => {
     const { prgm_type_id, prgm_type, ser_type, pgm_type_status } = req.body;
 
     // find a service type
-    const serviceType = await ServiceType.findOne({
+    const serviceType = await ser_type.findOne({
         where: {
             "ser_type": ser_type
         }
@@ -108,7 +108,7 @@ const editProgramType = async (req, res) => {
     };
 
     // create a new program type based on the info and save it to the database
-    const updatedProgramType = await ProgramType.update(programTypeInfo, {
+    const updatedProgramType = await program_type.update(programTypeInfo, {
         where: {
             "prgm_type_id": prgm_type_id
         }
@@ -120,7 +120,7 @@ const editProgramType = async (req, res) => {
 
     // if program type was succesfully updated
     if (updatedProgramType) {
-        ProgramType.findAll().then((programTypes) => {
+        program_type.findAll().then((programTypes) => {
             res.send(programTypes);
         }).catch((err) => {
             throw err;
@@ -133,7 +133,7 @@ const editProgramType = async (req, res) => {
 // delete a program type (DELETE)
 const deleteProgramType = async (req, res) => {
     try {
-        await ProgramType.destroy({
+        await program_type.destroy({
             where: {
                 prgm_type_id: req.params.id
             }

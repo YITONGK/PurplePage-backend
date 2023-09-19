@@ -1,9 +1,9 @@
 // link to service stream model
-const { ServiceStream } = require('../models');
+const { ser_stream } = require('../models');
 
 // get all service streams
 const getAllServiceStreams = async (req, res) => {
-    await ServiceStream.findAll().then((serviceStreams) => {
+    await ser_stream.findAll().then((serviceStreams) => {
         return res.send(serviceStreams);
     }).catch((err) => {
         throw err;
@@ -13,7 +13,7 @@ const getAllServiceStreams = async (req, res) => {
 // get a service stream based on id
 const getServiceStreamByID = async (req, res) => {
     // search for service stream in the database via ID
-    await ServiceStream.findOne({
+    await ser_stream.findOne({
         where: {
             "ser_stream_id": req.params.id
         }
@@ -29,7 +29,7 @@ const getServiceStreamByID = async (req, res) => {
 // add a service stream (POST)
 const createServiceStream = async (req, res) => {
     // search for the previous last entry in the service stream table
-    const prevServiceStream = await ServiceStream.findAll({
+    const prevServiceStream = await ser_stream.findAll({
         limit: 1,
         order: [['ser_stream_id', 'DESC']]
     });
@@ -40,7 +40,7 @@ const createServiceStream = async (req, res) => {
     const ser_stream_id = prevServiceStream[0].ser_stream_id + 1;
 
     // create a new service stream
-    const newServiceStream = await ServiceStream.create({ser_stream_id, ser_stream, status}).catch((err) => {
+    const newServiceStream = await ser_stream.create({ser_stream_id, ser_stream, status}).catch((err) => {
         if (err) {
             throw err;
         }
@@ -48,7 +48,7 @@ const createServiceStream = async (req, res) => {
 
     // if service stream was successfully created
     if (newServiceStream) {
-        ServiceStream.findAll().then((serviceStreams) => {
+        ser_stream.findAll().then((serviceStreams) => {
             return res.send(serviceStreams);
         }).catch((err) => {
             throw err;
@@ -71,7 +71,7 @@ const editServiceStream = async (req, res) => {
     };
 
     // create a new service stream based on the info and save it to the database
-    const updatedServiceStream = await ServiceStream.update(serviceStreamInfo, {
+    const updatedServiceStream = await ser_stream.update(serviceStreamInfo, {
         where: {
             "ser_stream_id": ser_stream_id
         }
@@ -83,7 +83,7 @@ const editServiceStream = async (req, res) => {
 
     // if service stream was successfully updated
     if (updatedServiceStream) {
-        ServiceStream.findAll().then((serviceStreams) => {
+        ser_stream.findAll().then((serviceStreams) => {
             res.send(serviceStreams);
         }).catch((err) => {
             throw err;
@@ -96,7 +96,7 @@ const editServiceStream = async (req, res) => {
 // delete a service stream (DELETE)
 const deleteServiceStream = async (req, res) => {
     try {
-        await ServiceStream.destroy({
+        await ser_stream.destroy({
             where: {
                 ser_stream_id: req.params.id
             }

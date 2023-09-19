@@ -1,9 +1,9 @@
 // link to group model
-const { Group, Division } = require('../models');
+const { uvt_group, Division } = require('../models');
 
 // get all groups
 const getAllGroups = async (req, res) => {
-    await Group.findAll().then(async (groups) => {
+    await uvt_group.findAll().then(async (groups) => {
         const divisions = []
         for (let i=0; i < groups.length; i++) {
             await Division.findOne({
@@ -26,7 +26,7 @@ const getAllGroups = async (req, res) => {
 // get a group based on id
 const getGroupByID = async (req, res) => {
     // search for group in the database via ID
-    await Group.findOne({
+    await uvt_group.findOne({
         where: {
             "group_id": req.params.id
         }
@@ -50,7 +50,7 @@ const getGroupByID = async (req, res) => {
 // add a group (POST)
 const createGroup = async (req, res) => {
     // search for the previous last entry in the group table
-    const prevGroup = await Group.findAll({
+    const prevGroup = await uvt_group.findAll({
         limit: 1,
         order: [['group_id', 'DESC']]
     });
@@ -69,7 +69,7 @@ const createGroup = async (req, res) => {
     const division_id = div['division_id'];
 
     // create a new group based on the data
-    const newGroup = await Group.create({group_id, group_name, eo, division_id, status}).catch((err) => {
+    const newGroup = await uvt_group.create({group_id, group_name, eo, division_id, status}).catch((err) => {
         if (err) {
             throw err;
         }
@@ -77,7 +77,7 @@ const createGroup = async (req, res) => {
 
     // if group was successfully created
     if (newGroup) {
-        Group.findAll().then((groups) => {
+        uvt_group.findAll().then((groups) => {
             return res.send(groups);
         }).catch((err) => {
             throw err;
@@ -109,7 +109,7 @@ const editGroup = async (req, res) => {
     };
 
     // create a new group based on the info and save it to the database
-    const updatedGroup = await Group.update(groupInfo, {
+    const updatedGroup = await uvt_group.update(groupInfo, {
         where: {
             "group_id": group_id
         }
@@ -121,7 +121,7 @@ const editGroup = async (req, res) => {
 
     // if group was successfully updated
     if (updatedGroup) {
-        Group.findAll().then((groups) => {
+        uvt_group.findAll().then((groups) => {
             res.send(groups);
         }).catch((err) => {
             throw err;
@@ -134,7 +134,7 @@ const editGroup = async (req, res) => {
 // delete a group (DELETE)
 const deleteGroup = async (req, res) => {
     try {
-        await Group.destroy({
+        await uvt_group.destroy({
             where: {
                 group_id: req.params.id
             }
