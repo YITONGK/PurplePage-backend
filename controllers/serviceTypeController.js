@@ -6,17 +6,29 @@ const getAllServiceTypes = async (req, res) => {
     await ser_type.findAll().then(async (serviceTypes) => {
         const serviceStreams = []
         for (let i=0; i < serviceTypes.length; i++) {
-            await ser_stream.findOne({
-                where: {
-                    "ser_stream_id": serviceTypes[i]['ser_stream_id']
-                }
-            }).then((serviceStream) => {
-                // serviceStreams.push(serviceStream);
+
+            if(serviceTypes[i]['ser_stream_id'] !== null)
+            {
+                await ser_stream.findOne({
+                    where: {
+                        "ser_stream_id": serviceTypes[i]['ser_stream_id']
+                    }
+                }).then((serviceStream) => {
+                    // serviceStreams.push(serviceStream);
+                    serviceStreams.push({
+                        ser_type_id: serviceTypes[i]['ser_type_id'],
+                        ser_stream: serviceStream['ser_stream'] 
+                    });
+                });
+            }
+            else {
                 serviceStreams.push({
                     ser_type_id: serviceTypes[i]['ser_type_id'],
-                    // ser_stream: serviceStream['ser_stream'] // need to fix
+                    ser_stream: ''
                 });
-            });
+
+            }
+            
         }
         return res.send([serviceTypes, serviceStreams]);
     }).catch((err) => {

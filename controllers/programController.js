@@ -22,16 +22,27 @@ const getAllPrograms = async (req, res) => {
         // get all groups
         const groups = [];
         for (let i=0; i < programs.length; i++) {
-            await uvt_group.findOne({
-                where: {
-                    "group_id": programs[i]['group_id']
-                }
-            }).then((group) => {
+
+            if(programs[i]['group_id'] !== null)
+            {
+                await uvt_group.findOne({
+                    where: {
+                        "group_id": programs[i]['group_id']
+                    }
+                }).then((group) => {
+                    groups.push({
+                        group_id: programs[i]['group_id'],
+                        group_name: group['group_name'] //need to fix
+                    });
+                });
+
+            }
+            else {
                 groups.push({
                     group_id: programs[i]['group_id'],
-                    // group_name: group['group_name']
+                    group_name: ''
                 });
-            });
+            }
         }
         // get all sites
         const sites = [];

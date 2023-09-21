@@ -10,21 +10,6 @@ const flash = require('express-flash');
 const session = require('express-session');
 const methodOverride = require('method-override');
 
-//new
-// const sqlPool = require('./db'); // Import the pool from db.js
-
-// place it after express.js
-// sqlPool.connect()
-//   .then(() => {
-//     console.log('Connected to SQL Server!');
-//   })
-//   .catch(err => console.error('Error connecting to SQL Server:', err));
-
-// app.set('sqlPool', sqlPool);
-
-// require the controllers
-// const userController = require('./controllers/userController');
-// const programController = require('./controllers/programController');
 
 console.log('Starting Server--');
 
@@ -33,12 +18,10 @@ console.log('Starting Server--');
 // const config_2 = {
 //   server: 'VT-PRD-SQLTEST1',
 //   authentication: {
-//     type: 'ntlm',
+//     type: 'default',
 //     options: {
-//         userName: 'adrian.teo',
-//         password: 'Atwx@04201121',
-//         domain: 'VT.UNITING.ORG', 
-//         integratedSecurity: true
+//       userName: 'adrian.teo@VT.UNITING.ORG', 
+//       integratedSecurity: true
 //     }
 //   },
 //   options: {
@@ -46,15 +29,6 @@ console.log('Starting Server--');
 //     encrypt: true,
 //     trustServerCertificate: true,
 //     port: 1433
-//   },
-//   debug: {
-//     packet: true,
-//     data: true,
-//     payload: true,
-//     token: true,
-//     log: function(message) {
-//         console.log(message);
-//     }
 //   }
 // };
 
@@ -88,7 +62,7 @@ const programRouter = require('./routes/programRouter');
 const serviceStreamRouter = require('./routes/serviceStreamRouter');
 const serviceTypeRouter = require('./routes/serviceTypeRouter');
 const siteRouter = require('./routes/siteRouter');
-// const userRouter = require('./routes/userRouter');
+const userRouter = require('./routes/userRouter');
 
 const db = require("./models");
 
@@ -101,8 +75,8 @@ app.use(session({
     resave: false,
     saveUninitialized: false
 }));
-// app.use(passport.initialize());
-// app.use(passport.session());
+
+
 app.use(methodOverride('_method'));
 
 // GET home page
@@ -123,7 +97,7 @@ app.use('/program', programRouter);
 app.use('/servicestream', serviceStreamRouter);
 app.use('/servicetype', serviceTypeRouter);
 app.use('/site', siteRouter);
-// app.use('/', userRouter);
+app.use('/', userRouter);
 
 app.listen(port, () => {
     console.log(`The app is listening on port ${port}!`)
