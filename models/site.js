@@ -68,6 +68,12 @@ module.exports = (sequelize, DataTypes) => {
         "modified_by": {
             type: DataTypes.STRING
         },
+        "site_open" : {
+            type: DataTypes.STRING
+        },
+        "site_close" : {
+            type: DataTypes.STRING
+        },
         "lat": {
             type: DataTypes.INTEGER
         },

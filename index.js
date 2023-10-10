@@ -59,9 +59,12 @@ const divisionRouter = require('./routes/divisionRouter');
 const groupRouter = require('./routes/groupRouter');
 const programTypeRouter = require('./routes/programTypeRouter');
 const programRouter = require('./routes/programRouter');
+const programAtRouter = require('./routes/programAtRouter');
+const programSdmRouter = require('./routes/programSdmRouter');
 const serviceStreamRouter = require('./routes/serviceStreamRouter');
 const serviceTypeRouter = require('./routes/serviceTypeRouter');
 const siteRouter = require('./routes/siteRouter');
+const siteAccessRouter = require('./routes/siteAccessRouter');
 const userRouter = require('./routes/userRouter');
 
 const db = require("./models");
@@ -94,9 +97,12 @@ app.use('/division', divisionRouter);
 app.use('/group', groupRouter);
 app.use('/programtype', programTypeRouter);
 app.use('/program', programRouter);
+app.use('/programat', programAtRouter);
+app.use('/programsdm', programSdmRouter);
 app.use('/servicestream', serviceStreamRouter);
 app.use('/servicetype', serviceTypeRouter);
 app.use('/site', siteRouter);
+app.use('/siteaccess', siteAccessRouter);
 app.use('/', userRouter);
 
 app.listen(port, () => {
