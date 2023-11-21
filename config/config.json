@@ -1,5 +1,5 @@
 {
-  "development": {
+  "development1": {
     "username": "adrian.teo",
     "password": "Atwx@04201121",
     "database": "ServiceDirectory_UVT_TEST",
@@ -19,7 +19,27 @@
         "trustServerCertificate": true
       }
     }
-  },  
+  },
+  "development": {
+    "username": "srv_sqlro_purplepage",
+    "password": "HU?X)?4?x8qWgR5r08XAsY74vSWL6];a=aA]W[!J@E8NaaT}{zNQuCYKo4ZsI,bo",
+    "database": "ServiceDirectory_UVT_DEV",
+    "host": "20.211.104.63",
+    "dialect": "mssql",
+    "dialectOptions": {
+      "authentication": {
+        "type": "default",
+        "options": {
+          "userName": "srv_sqlro_purplepage",
+          "password": "HU?X)?4?x8qWgR5r08XAsY74vSWL6];a=aA]W[!J@E8NaaT}{zNQuCYKo4ZsI,bo"
+        }
+      },
+      "options": {
+        "encrypt": true,
+        "trustServerCertificate": true
+      }
+    }
+  },
   "test": {
     "username": "root",
     "password": null,
