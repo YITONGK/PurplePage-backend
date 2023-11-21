@@ -88,7 +88,7 @@ db.sequelize.sync();
 // cors
 app.use(cors({
     credentials: true,
-    origin: 'http://localhost:3000',
+    origin: ['http://localhost:3000', 'http://purplepage.wernmachine.art', 'https://purplepage.wernmachine.art'],
     methods: ['GET', 'POST', 'PUT', 'DELETE']
 }));
 
