@@ -2,6 +2,9 @@ if (process.env.NODE_ENV !== 'production') {
     require('dotenv').config()
 }
 
+const jwt = require('jsonwebtoken');
+const jwksClient = require('jwks-rsa');
+
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
@@ -12,40 +15,6 @@ const methodOverride = require('method-override');
 
 
 console.log('Starting Server--');
-
-// const Connection = require('tedious').Connection;
-
-// const config_2 = {
-//   server: 'VT-PRD-SQLTEST1',
-//   authentication: {
-//     type: 'default',
-//     options: {
-//       userName: 'adrian.teo@VT.UNITING.ORG', 
-//       integratedSecurity: true
-//     }
-//   },
-//   options: {
-//     database: 'ServiceDirectory_UVT_TEST',
-//     encrypt: true,
-//     trustServerCertificate: true,
-//     port: 1433
-//   }
-// };
-
-// const connection = new Connection(config_2);
-
-// connection.connect();
-
-// connection.on('connect', function(err) {
-//     if (err) {
-//       console.log("Connection Error", err);
-//     } else {
-//       console.log("Connected!");
-//     }
-// });
-
-// const initializePassport = require('./passport-config');
-// initializePassport(passport, userController.getUserByEmail, userController.getUserById);
 
 const app = express();
 
@@ -91,6 +60,52 @@ app.use(cors({
     origin: ['http://localhost:3000', 'http://purplepage.wernmachine.art', 'https://purplepage.wernmachine.art', 'https://purplepages.vt.uniting.org', 'http://purplepages.vt.uniting.org'],
     methods: ['GET', 'POST', 'PUT', 'DELETE']
 }));
+
+// Middleware for token validation
+app.use((req, res, next) => {
+
+    const token = req.headers.authorization && req.headers.authorization.split(' ')[1]; //Bre
+
+    if (!token) {
+        console.log("Token Missing");
+        return res.status(401).json({ error: 'Unauthorized - No token provided' });
+    }
+    else {
+        // Create a JWKS client instance pointing to the JWKS endpoint
+        const jwksUri = 'https://login.microsoftonline.com/ea913fd5-8fd8-47c7-8f3f-8117e1a387dc/discovery/keys?appid=788cf6e0-220f-4228-a961-67e18d97e10f';
+        const client = jwksClient({ jwksUri });
+
+        // Function to get the public key based on the token's header
+        const getKey = (header, callback) => {
+            client.getSigningKey(header.kid, (err, key) => {
+                if (err) {
+                    callback(err);
+                } else {
+                    // console.log(key);
+                    const signingKey = key.publicKey || key.rsaPublicKey;
+                    // console.log("Public Key: " + signingKey);
+                    callback(null, signingKey);
+                }
+            });
+        };
+
+        // Verify the MSAL token
+        jwt.verify(token, getKey, { algorithms: ['RS256'] }, (err, decodedToken) => {
+            if (err) {
+                console.error('Token validation failed:', err);
+                return res.status(401).send('Unauthorized - Token Invalid');
+                // Handle the invalid token case
+            } else {
+                // Token is valid, and decodedToken contains the decoded claims
+                console.log('Token is valid. Decoded:', decodedToken);
+                next();
+                // Proceed with further logic
+            }
+        });
+    }
+
+
+});
 
 // handle route requests
 app.use('/division', divisionRouter);
