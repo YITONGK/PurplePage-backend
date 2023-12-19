@@ -1,37 +1,17 @@
 {
-  "development1": {
-    "username": "adrian.teo",
-    "password": "Atwx@04201121",
-    "database": "ServiceDirectory_UVT_TEST",
-    "host": "VT-PRD-SQLTEST1",
+  "development": {
+    "username": "srv_sqlro_purplepage",
+    "password": "G]KOIR{^y(Mxwh?cERFAs0qzQ%9K;e9y5ywVL?3%+C[.2EphgpJ(L01@s#IxbZKd%Gsc}1O@tF9Lr]zY@Eyry}c>pxh(q!;5%Vvt",
+    "database": "ServiceDirectory_UVT",
+    "host": "VT-PRD-SQLAPP01",
     "dialect": "mssql",
     "dialectOptions": {
       "authentication": {
         "type": "ntlm",
         "options": {
-          "userName": "adrian.teo",
-          "password": "Atwx@04201121",
-          "domain": "VT.UNITING.ORG"
-        }
-      },
-      "options": {
-        "encrypt": true,
-        "trustServerCertificate": true
-      }
-    }
-  },
-  "development": {
-    "username": "srv_sqlro_purplepage",
-    "password": "HU?X)?4?x8qWgR5r08XAsY74vSWL6];a=aA]W[!J@E8NaaT}{zNQuCYKo4ZsI,bo",
-    "database": "ServiceDirectory_UVT_DEV",
-    "host": "20.211.104.63",
-    "dialect": "mssql",
-    "dialectOptions": {
-      "authentication": {
-        "type": "default",
-        "options": {
           "userName": "srv_sqlro_purplepage",
-          "password": "HU?X)?4?x8qWgR5r08XAsY74vSWL6];a=aA]W[!J@E8NaaT}{zNQuCYKo4ZsI,bo"
+          "password": "G]KOIR{^y(Mxwh?cERFAs0qzQ%9K;e9y5ywVL?3%+C[.2EphgpJ(L01@s#IxbZKd%Gsc}1O@tF9Lr]zY@Eyry}c>pxh(q!;5%Vvt",
+          "domain": "VT.UNITING.ORG"
         }
       },
       "options": {
