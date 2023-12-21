@@ -50,12 +50,12 @@ app.use(session({
         // Redis options here
         // For example, host and port
         host: 'localhost',
-        port: 6379,
+        port: 8888,
         client: redisClient,
     }),
     secret: process.env.SESSION_SECRET,
     resave: false,
-    saveUninitialized: true,
+    saveUninitialized: false,
 }));
 
 
