@@ -12,9 +12,32 @@ const db = {};
 
 let sequelize;
 if (config.use_env_variable) {
-  sequelize = new Sequelize(process.env[config.use_env_variable], config);
+  sequelize = new Sequelize({
+    username: process.env[config.username],
+    password: process.env[config.password],
+    database: process.env[config.database],
+    host: process.env[config.host],
+    dialect: "mssql",
+    dialectOptions: {
+      authentication: {
+        type: "ntlm",
+        options: {
+          userName: process.env[config.username],
+          password: process.env[config.password],
+          domain: process.env[config.domain],
+        },
+      },
+      options: {
+        encrypt: true,
+        trustServerCertificate: true,
+      },
+    },
+  });
+
 } else {
+
   sequelize = new Sequelize(config.database, config.username, config.password, config);
+
 }
 
 

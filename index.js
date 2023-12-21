@@ -12,13 +12,13 @@ const passport = require('passport');
 const flash = require('express-flash');
 const session = require('express-session');
 const methodOverride = require('method-override');
-
+const redis = require('redis');
+const RedisStore = require('connect-redis').default;
 
 console.log('Starting Server--');
 
 const app = express();
 
-app.use(require('express-session')({ secret: 'keyboard cat', resave: true, saveUninitialized: true }));
 app.use(bodyParser.json());
 
 const port = process.env.PORT || 8888;
@@ -42,10 +42,20 @@ const db = require("./models");
 app.set('view-engine', 'ejs');
 app.use(express.urlencoded({ extended: false }));
 app.use(flash());
+
+const redisClient = redis.createClient();
+
 app.use(session({
+    store: new RedisStore({
+        // Redis options here
+        // For example, host and port
+        host: 'localhost',
+        port: 6379,
+        client: redisClient,
+    }),
     secret: process.env.SESSION_SECRET,
     resave: false,
-    saveUninitialized: false
+    saveUninitialized: true,
 }));
 
 
@@ -67,7 +77,6 @@ app.use((req, res, next) => {
     const token = req.headers.authorization && req.headers.authorization.split(' ')[1]; //Bre
 
     if (!token) {
-        console.log("Token Missing");
         return res.status(401).json({ error: 'Unauthorized - No token provided' });
     }
     else {
@@ -92,12 +101,10 @@ app.use((req, res, next) => {
         // Verify the MSAL token
         jwt.verify(token, getKey, { algorithms: ['RS256'] }, (err, decodedToken) => {
             if (err) {
-                console.error('Token validation failed:', err);
                 return res.status(401).send('Unauthorized - Token Invalid');
                 // Handle the invalid token case
             } else {
                 // Token is valid, and decodedToken contains the decoded claims
-                console.log('Token is valid. Decoded:', decodedToken);
                 next();
                 // Proceed with further logic
             }

@@ -129,3 +129,6 @@ dist
 # IDE
 .idea/
 .DS_Store
+
+#ENV
+.env
