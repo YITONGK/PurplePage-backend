@@ -80,6 +80,9 @@ module.exports = (sequelize, DataTypes) => {
         "lng": {
             type: DataTypes.INTEGER
         },
+        "facility_mgr": {
+            type: DataTypes.STRING
+        }
     }, {
         schema: 'dbo',
         timestamps: false,
